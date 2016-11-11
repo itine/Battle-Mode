@@ -1,0 +1,11 @@
+c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigStat\bin\Release\ConfigStat.exe.config
+c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigStat\bin\Release\ConfigStat.exe
+c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigStat\bin\Release\ConfigStat.pdb
+c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigStat\bin\Release\EntityFramework.dll
+c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigStat\bin\Release\EntityFramework.xml
+c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigStat\bin\Release\ru\EntityFramework.resources.dll
+c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigStat\obj\Release\ConfigStat.Form1.resources
+c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigStat\obj\Release\ConfigStat.Properties.Resources.resources
+c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigStat\obj\Release\ConfigStat.csproj.GenerateResource.Cache
+c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigStat\obj\Release\ConfigStat.exe
+c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigStat\obj\Release\ConfigStat.pdb

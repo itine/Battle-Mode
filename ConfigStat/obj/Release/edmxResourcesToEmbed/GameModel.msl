@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище GameModelContainer" CdmEntityContainer="GameEntities">
+    <EntitySetMapping Name="units">
+      <EntityTypeMapping TypeName="GameModel.units">
+        <MappingFragment StoreEntitySet="units">
+          <ScalarProperty Name="idUnit" ColumnName="idUnit" />
+          <ScalarProperty Name="attack" ColumnName="attack" />
+          <ScalarProperty Name="hp" ColumnName="hp" />
+          <ScalarProperty Name="averageDamage" ColumnName="averageDamage" />
+          <ScalarProperty Name="defence" ColumnName="defence" />
+          <ScalarProperty Name="speed" ColumnName="speed" />
+          <ScalarProperty Name="unitName" ColumnName="unitName" />
+          <ScalarProperty Name="currentLeftBox" ColumnName="currentLeftBox" />
+          <ScalarProperty Name="currentRightBox" ColumnName="currentRightBox" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

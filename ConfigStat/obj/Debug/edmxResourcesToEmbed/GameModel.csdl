@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GameModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="units">
+    <Key>
+      <PropertyRef Name="idUnit" />
+    </Key>
+    <Property Name="idUnit" Type="Int32" Nullable="false" />
+    <Property Name="attack" Type="Int32" Nullable="false" />
+    <Property Name="hp" Type="Int32" Nullable="false" />
+    <Property Name="averageDamage" Type="Int32" Nullable="false" />
+    <Property Name="defence" Type="Int32" Nullable="false" />
+    <Property Name="speed" Type="Int32" Nullable="false" />
+    <Property Name="unitName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="currentLeftBox" Type="Int32" />
+    <Property Name="currentRightBox" Type="Int32" />
+  </EntityType>
+  <EntityContainer Name="GameEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="units" EntityType="Self.units" />
+  </EntityContainer>
+</Schema>
