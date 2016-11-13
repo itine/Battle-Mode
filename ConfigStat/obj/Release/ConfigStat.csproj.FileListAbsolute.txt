@@ -9,3 +9,4 @@ c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigS
 c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigStat\obj\Release\ConfigStat.csproj.GenerateResource.Cache
 c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigStat\obj\Release\ConfigStat.exe
 c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigStat\obj\Release\ConfigStat.pdb
+C:\Users\alexe\OneDrive\Documents\Visual Studio 2015\Projects\ConfigStat\ConfigStat\obj\Release\ConfigStat.csprojResolveAssemblyReference.cache
