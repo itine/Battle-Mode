@@ -7,7 +7,6 @@
     <Property Name="idUnit" Type="int" Nullable="false" />
     <Property Name="attack" Type="int" Nullable="false" />
     <Property Name="hp" Type="int" Nullable="false" />
-    <Property Name="averageDamage" Type="int" Nullable="false" />
     <Property Name="defence" Type="int" Nullable="false" />
     <Property Name="speed" Type="int" Nullable="false" />
     <Property Name="unitName" Type="varchar" MaxLength="50" Nullable="false" />

@@ -17,7 +17,6 @@ namespace ConfigStat
         public int idUnit { get; set; }
         public int attack { get; set; }
         public int hp { get; set; }
-        public int averageDamage { get; set; }
         public int defence { get; set; }
         public int speed { get; set; }
         public string unitName { get; set; }

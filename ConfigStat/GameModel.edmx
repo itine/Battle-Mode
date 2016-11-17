@@ -12,7 +12,6 @@
           <Property Name="idUnit" Type="int" Nullable="false" />
           <Property Name="attack" Type="int" Nullable="false" />
           <Property Name="hp" Type="int" Nullable="false" />
-          <Property Name="averageDamage" Type="int" Nullable="false" />
           <Property Name="defence" Type="int" Nullable="false" />
           <Property Name="speed" Type="int" Nullable="false" />
           <Property Name="unitName" Type="varchar" MaxLength="50" Nullable="false" />
@@ -40,7 +39,6 @@
           <Property Name="idUnit" Type="Int32" Nullable="false" />
           <Property Name="attack" Type="Int32" Nullable="false" />
           <Property Name="hp" Type="Int32" Nullable="false" />
-          <Property Name="averageDamage" Type="Int32" Nullable="false" />
           <Property Name="defence" Type="Int32" Nullable="false" />
           <Property Name="speed" Type="Int32" Nullable="false" />
           <Property Name="unitName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
@@ -68,7 +66,6 @@
                 <ScalarProperty Name="idUnit" ColumnName="idUnit" />
                 <ScalarProperty Name="attack" ColumnName="attack" />
                 <ScalarProperty Name="hp" ColumnName="hp" />
-                <ScalarProperty Name="averageDamage" ColumnName="averageDamage" />
                 <ScalarProperty Name="defence" ColumnName="defence" />
                 <ScalarProperty Name="speed" ColumnName="speed" />
                 <ScalarProperty Name="unitName" ColumnName="unitName" />

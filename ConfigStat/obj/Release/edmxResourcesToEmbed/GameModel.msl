@@ -7,7 +7,6 @@
           <ScalarProperty Name="idUnit" ColumnName="idUnit" />
           <ScalarProperty Name="attack" ColumnName="attack" />
           <ScalarProperty Name="hp" ColumnName="hp" />
-          <ScalarProperty Name="averageDamage" ColumnName="averageDamage" />
           <ScalarProperty Name="defence" ColumnName="defence" />
           <ScalarProperty Name="speed" ColumnName="speed" />
           <ScalarProperty Name="unitName" ColumnName="unitName" />
