@@ -95,16 +95,22 @@ namespace ConfigStat
             rightBoxs[6] = pictureBox7;
         }
 
-        private double GetCoefficientOfAttack(string attackerClassName, string defenderClassName)
+        private double GetCoefficientOfAttack(string attackerClassName, int attackerLevel, string defenderClassName, int defenderLevel)
         {
+            double totalCoefficient = 1.0;
             if (attackerClassName.Equals("attacker") && defenderClassName.Equals("shooter"))
-                return 1.2;
-            else if (attackerClassName.Equals("shooter") && defenderClassName.Equals("flyer"))
-                return 1.2;
-            else if (attackerClassName.Equals("flyer") && defenderClassName.Equals("attacker"))
-                return 1.2;
-            else
-                return 1.0;
+                totalCoefficient += 0.2;
+            if (attackerClassName.Equals("shooter") && defenderClassName.Equals("flyer"))
+                totalCoefficient += 0.2;
+            if (attackerClassName.Equals("flyer") && defenderClassName.Equals("attacker"))
+                totalCoefficient += 0.2;
+            if ((attackerLevel == 1) && (defenderLevel == 2))
+                totalCoefficient += 0.1;
+            if ((attackerLevel == 1) && (defenderLevel == 3))
+                totalCoefficient += 0.2;
+            if ((attackerLevel == 2) && (defenderLevel == 3))
+                totalCoefficient += 0.1;
+            return totalCoefficient;
         }
         
         private void UpdateQuantityOnLeft(int idUnit, double quantity)
@@ -687,9 +693,9 @@ namespace ConfigStat
                 rightBoxs[currentRightTextBox].BackColor = Color.Red;
                 leftTextBoxs[currentLeftTextBox].BackColor = Color.Aquamarine;
                 if (leftMonsterAttack >= rightMonsterDefence)
-                    damage = GetCoefficientOfAttack(localLeft.classOfMonster, localRight.classOfMonster) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) * (1 + (leftMonsterAttack - rightMonsterDefence) * 0.05));
+                    damage = GetCoefficientOfAttack(localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault(), localRight.classOfMonster, localRight.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) * (1 + (leftMonsterAttack - rightMonsterDefence) * 0.05));
                 else
-                    damage = GetCoefficientOfAttack(localLeft.classOfMonster, localRight.classOfMonster) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) / (1 + (rightMonsterDefence - leftMonsterAttack) * 0.05));
+                    damage = GetCoefficientOfAttack(localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault(), localRight.classOfMonster, localRight.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) / (1 + (rightMonsterDefence - leftMonsterAttack) * 0.05));
                 
                 remainingHPOnTheRight -= damage;
                 label6.Text += "\n" + step + ") " + damage.ToString();
@@ -700,9 +706,9 @@ namespace ConfigStat
                 if (monstersRemaningOnRight > 0)
                 {
                     if (rightMonsterAttack >= leftMonsterDefence)
-                        damage = GetCoefficientOfAttack(localRight.classOfMonster, localLeft.classOfMonster) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) * (1 + (rightMonsterAttack - leftMonsterDefence) * 0.05));
+                        damage = GetCoefficientOfAttack(localRight.classOfMonster,localRight.monsterSize.GetValueOrDefault(), localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) * (1 + (rightMonsterAttack - leftMonsterDefence) * 0.05));
                     else
-                        damage = GetCoefficientOfAttack(localRight.classOfMonster, localLeft.classOfMonster) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) / (1 + (leftMonsterDefence - rightMonsterAttack) * 0.05));
+                        damage = GetCoefficientOfAttack(localRight.classOfMonster,localRight.monsterSize.GetValueOrDefault(), localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) / (1 + (leftMonsterDefence - rightMonsterAttack) * 0.05));
                     remainingHPOnTheLeft -= damage;
                     label8.Text += "\n" + step + ") " + damage.ToString();
                     monstersRemaningOnLeft = remainingHPOnTheLeft / leftMonsterHP;
@@ -728,9 +734,9 @@ namespace ConfigStat
                 rightBoxs[currentRightTextBox].BackColor = Color.Green;
                 rightTextBoxs[currentRightTextBox].BackColor = Color.Aquamarine;
                 if (rightMonsterAttack >= leftMonsterDefence)
-                    damage = GetCoefficientOfAttack(localRight.classOfMonster, localLeft.classOfMonster) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) * (1 + (rightMonsterAttack - leftMonsterDefence) * 0.05));
+                    damage = GetCoefficientOfAttack(localRight.classOfMonster,localRight.monsterSize.GetValueOrDefault(), localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) * (1 + (rightMonsterAttack - leftMonsterDefence) * 0.05));
                 else
-                    damage = GetCoefficientOfAttack(localRight.classOfMonster, localLeft.classOfMonster) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) / (1 + (leftMonsterDefence - rightMonsterAttack) * 0.05));
+                    damage = GetCoefficientOfAttack(localRight.classOfMonster,localRight.monsterSize.GetValueOrDefault(), localLeft.classOfMonster,localLeft.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) / (1 + (leftMonsterDefence - rightMonsterAttack) * 0.05));
                 remainingHPOnTheLeft -= damage;
                 label8.Text += "\n" + step + ") " + damage.ToString();
                 monstersRemaningOnLeft = remainingHPOnTheLeft / leftMonsterHP;
@@ -739,9 +745,9 @@ namespace ConfigStat
                 if (monstersRemaningOnLeft > 0)
                 {
                     if (leftMonsterAttack >= rightMonsterDefence)
-                        damage = GetCoefficientOfAttack(localLeft.classOfMonster, localRight.classOfMonster) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) * (1 + (leftMonsterAttack - rightMonsterDefence) * 0.05));
+                        damage = GetCoefficientOfAttack(localLeft.classOfMonster,localLeft.monsterSize.GetValueOrDefault(), localRight.classOfMonster, localRight.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) * (1 + (leftMonsterAttack - rightMonsterDefence) * 0.05));
                     else
-                        damage = GetCoefficientOfAttack(localLeft.classOfMonster, localRight.classOfMonster) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) / (1 + (rightMonsterDefence - leftMonsterAttack) * 0.05));
+                        damage = GetCoefficientOfAttack(localLeft.classOfMonster,localLeft.monsterSize.GetValueOrDefault(), localRight.classOfMonster, localRight.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) / (1 + (rightMonsterDefence - leftMonsterAttack) * 0.05));
                     remainingHPOnTheRight -= damage;
                     label6.Text += "\n" + step.ToString() + ") " + damage.ToString();
                     monstersRemaningOnRight = remainingHPOnTheRight / rightMonsterHP;
