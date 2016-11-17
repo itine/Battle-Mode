@@ -13,6 +13,12 @@
           <ScalarProperty Name="unitName" ColumnName="unitName" />
           <ScalarProperty Name="currentLeftBox" ColumnName="currentLeftBox" />
           <ScalarProperty Name="currentRightBox" ColumnName="currentRightBox" />
+          <ScalarProperty Name="monstersRemainingOnLeft" ColumnName="monstersRemainingOnLeft" />
+          <ScalarProperty Name="monstersRemainingOnRight" ColumnName="monstersRemainingOnRight" />
+          <ScalarProperty Name="classOfMonster" ColumnName="classOfMonster" />
+          <ScalarProperty Name="monsterSize" ColumnName="monsterSize" />
+          <ScalarProperty Name="minDamage" ColumnName="minDamage" />
+          <ScalarProperty Name="maxDamage" ColumnName="maxDamage" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

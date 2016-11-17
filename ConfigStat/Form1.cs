@@ -34,6 +34,8 @@ namespace ConfigStat
         int leftMonsterHP = 0;
         int leftMonsterAverageDamage = 0;
         int leftMonsterDefence = 0;
+        int leftMonsterMinDamage = 0;
+        int leftMonsterMaxDamage = 0;
         int currentHPOfLeftMonster = 0;
         double monstersRemaningOnLeft = 0;
         double remainingHPOnTheLeft = 0;
@@ -42,6 +44,8 @@ namespace ConfigStat
         double monstersRemaningOnRight = 0;
         double remainingHPOnTheRight = 0;
         int rightMonsterHP = 0;
+        int rightMonsterMinDamage = 0;
+        int rightMonsterMaxDamage = 0;
         int rightMonsterAverageDamage = 0;
         int rightMonsterAttack = 0;
         int rightMonsterDefence = 0;
@@ -88,11 +92,30 @@ namespace ConfigStat
             rightBoxs[5] = pictureBox6;
             rightBoxs[6] = pictureBox7;
         }
+        
+        private void UpdateQuantityOnLeft(int idUnit, double quantity)
+        {
+            units unit = db.units.Find(idUnit);
+            unit.monstersRemainingOnLeft = quantity;
+            db.Entry(unit).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        private void UpdateQuantityOnRight(int idUnit, double quantity)
+        {
+            units unit = db.units.Find(idUnit);
+            unit.monstersRemainingOnRight = quantity;
+            db.Entry(unit).State = EntityState.Modified;
+            db.SaveChanges();
+        }
 
         private void ModifiedQuantityForLeft(int idUnit, int currentTbId)
         {
             units unit = db.units.Find(idUnit);
             unit.currentLeftBox = currentTbId;
+            if (step == 1)
+                unit.monstersRemainingOnLeft = Double.Parse(leftTextBoxs[currentTbId-1].Text);
+            
             db.Entry(unit).State = EntityState.Modified;
             db.SaveChanges();
         }
@@ -101,6 +124,9 @@ namespace ConfigStat
         {
             units unit = db.units.Find(idUnit);
             unit.currentRightBox = currentTbId;
+            if (step == 1)
+                unit.monstersRemainingOnRight = Double.Parse(rightTextBoxs[currentTbId-1].Text);
+            
             db.Entry(unit).State = EntityState.Modified;
             db.SaveChanges();
         }
@@ -615,21 +641,29 @@ namespace ConfigStat
                 int localIdRight = rightMonsters[currentRightTextBox];
                 localRight = GetRightUnitById(localIdRight);
             }
+            
+
 
             leftMonsterAttack = localLeft.attack;
             leftMonsterHP = localLeft.hp;
-            leftMonsterAverageDamage = localLeft.averageDamage;
+                leftMonsterMinDamage = localLeft.minDamage.GetValueOrDefault();
+                leftMonsterMaxDamage = localLeft.maxDamage.GetValueOrDefault();
+                Random rand = new Random();
+            leftMonsterAverageDamage = rand.Next(leftMonsterMinDamage, leftMonsterMaxDamage+1);
             leftMonsterDefence = localLeft.defence;
             currentHPOfLeftMonster = localLeft.hp;
-            monstersRemaningOnLeft = Double.Parse(leftTextBoxs[currentLeftTextBox].Text);
+            monstersRemaningOnLeft = localLeft.monstersRemainingOnLeft.GetValueOrDefault();
             remainingHPOnTheLeft = currentHPOfLeftMonster * monstersRemaningOnLeft;
 
             rightMonsterAttack = localRight.attack;
             rightMonsterHP = localRight.hp;
-            rightMonsterAverageDamage = localRight.averageDamage;
+            rightMonsterMinDamage = localRight.minDamage.GetValueOrDefault();
+            rightMonsterMaxDamage = localRight.maxDamage.GetValueOrDefault();
+            Random rand2 = new Random();
+            rightMonsterAverageDamage = rand2.Next(rightMonsterMinDamage, rightMonsterMaxDamage+1);
             rightMonsterDefence = localRight.defence;
             currentHPOfRightMonster = localRight.hp;
-            monstersRemaningOnRight = Double.Parse(rightTextBoxs[currentRightTextBox].Text);
+            monstersRemaningOnRight = localRight.monstersRemainingOnRight.GetValueOrDefault();
             remainingHPOnTheRight = currentHPOfRightMonster * monstersRemaningOnRight;
 
             //Game battle
@@ -640,24 +674,26 @@ namespace ConfigStat
                 rightBoxs[currentRightTextBox].BackColor = Color.Red;
                 leftTextBoxs[currentLeftTextBox].BackColor = Color.Aquamarine;
                 if (leftMonsterAttack >= rightMonsterDefence)
-                    damage = Convert.ToDouble((monstersRemaningOnLeft * leftMonsterAverageDamage) * (1 + (leftMonsterAttack - rightMonsterDefence) * 0.05));
+                    damage = Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) * (1 + (leftMonsterAttack - rightMonsterDefence) * 0.05));
                 else
-                    damage = Convert.ToDouble((monstersRemaningOnLeft * leftMonsterAverageDamage) / (1 + (rightMonsterDefence - leftMonsterAttack) * 0.05));
+                    damage = Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) / (1 + (rightMonsterDefence - leftMonsterAttack) * 0.05));
                 remainingHPOnTheRight -= damage;
                 label6.Text += "\n" + step + ") " + damage.ToString();
                 monstersRemaningOnRight = remainingHPOnTheRight / rightMonsterHP;
-                rightTextBoxs[currentRightTextBox].Text = monstersRemaningOnRight.ToString();
+                UpdateQuantityOnRight(localRight.idUnit, monstersRemaningOnRight);
+                rightTextBoxs[currentRightTextBox].Text = Math.Ceiling(monstersRemaningOnRight).ToString();
 
                 if (monstersRemaningOnRight > 0)
                 {
                     if (rightMonsterAttack >= leftMonsterDefence)
-                        damage = Convert.ToDouble((monstersRemaningOnRight * rightMonsterAverageDamage) * (1 + (rightMonsterAttack - leftMonsterDefence) * 0.05));
+                        damage = Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) * (1 + (rightMonsterAttack - leftMonsterDefence) * 0.05));
                     else
-                        damage = Convert.ToDouble((monstersRemaningOnRight * rightMonsterAverageDamage) / (1 + (leftMonsterDefence - rightMonsterAttack) * 0.05));
+                        damage = Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) / (1 + (leftMonsterDefence - rightMonsterAttack) * 0.05));
                     remainingHPOnTheLeft -= damage;
                     label8.Text += "\n" + step + ") " + damage.ToString();
                     monstersRemaningOnLeft = remainingHPOnTheLeft / leftMonsterHP;
-                    leftTextBoxs[currentLeftTextBox].Text = monstersRemaningOnLeft.ToString();
+                    UpdateQuantityOnLeft(localLeft.idUnit, monstersRemaningOnLeft);
+                    leftTextBoxs[currentLeftTextBox].Text = Math.Ceiling(monstersRemaningOnLeft).ToString();
                     if (monstersRemaningOnLeft <= 0)
                     {
                         label8.Text += "\n левый убит";
@@ -678,24 +714,25 @@ namespace ConfigStat
                 rightBoxs[currentRightTextBox].BackColor = Color.Green;
                 rightTextBoxs[currentRightTextBox].BackColor = Color.Aquamarine;
                 if (rightMonsterAttack >= leftMonsterDefence)
-                    damage = Convert.ToDouble((monstersRemaningOnRight * rightMonsterAverageDamage) * (1 + (rightMonsterAttack - leftMonsterDefence) * 0.05));
+                    damage = Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) * (1 + (rightMonsterAttack - leftMonsterDefence) * 0.05));
                 else
-                    damage = Convert.ToDouble((monstersRemaningOnRight * rightMonsterAverageDamage) / (1 + (leftMonsterDefence - rightMonsterAttack) * 0.05));
+                    damage = Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) / (1 + (leftMonsterDefence - rightMonsterAttack) * 0.05));
                 remainingHPOnTheLeft -= damage;
                 label8.Text += "\n" + step + ") " + damage.ToString();
                 monstersRemaningOnLeft = remainingHPOnTheLeft / leftMonsterHP;
-                leftTextBoxs[currentLeftTextBox].Text = monstersRemaningOnLeft.ToString();
+                UpdateQuantityOnLeft(localLeft.idUnit, monstersRemaningOnLeft);
+                leftTextBoxs[currentLeftTextBox].Text = Math.Ceiling(monstersRemaningOnLeft).ToString();
                 if (monstersRemaningOnLeft > 0)
                 {
                     if (leftMonsterAttack >= rightMonsterDefence)
-                        damage = Convert.ToDouble((monstersRemaningOnLeft * leftMonsterAverageDamage) * (1 + (leftMonsterAttack - rightMonsterDefence) * 0.05));
+                        damage = Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) * (1 + (leftMonsterAttack - rightMonsterDefence) * 0.05));
                     else
-                        damage = Convert.ToDouble((monstersRemaningOnLeft * leftMonsterAverageDamage) / (1 + (rightMonsterDefence - leftMonsterAttack) * 0.05));
+                        damage = Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) / (1 + (rightMonsterDefence - leftMonsterAttack) * 0.05));
                     remainingHPOnTheRight -= damage;
                     label6.Text += "\n" + step.ToString() + ") " + damage.ToString();
-
                     monstersRemaningOnRight = remainingHPOnTheRight / rightMonsterHP;
-                    rightTextBoxs[currentRightTextBox].Text = monstersRemaningOnRight.ToString();
+                    UpdateQuantityOnRight(localRight.idUnit, monstersRemaningOnRight);
+                    rightTextBoxs[currentRightTextBox].Text = Math.Ceiling(monstersRemaningOnRight).ToString();
                     if (monstersRemaningOnRight <= 0)
                     {
                         label6.Text += " \n правый убит";

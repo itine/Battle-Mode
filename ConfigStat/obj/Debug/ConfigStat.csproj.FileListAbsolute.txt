@@ -10,4 +10,3 @@ c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigS
 c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigStat\bin\Debug\ru\EntityFramework.resources.dll
 c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigStat\obj\Debug\ConfigStat.exe
 c:\users\alexe\onedrive\documents\visual studio 2015\Projects\ConfigStat\ConfigStat\obj\Debug\ConfigStat.pdb
-C:\Users\alexe\OneDrive\Documents\Visual Studio 2015\Projects\ConfigStat\ConfigStat\obj\Debug\ConfigStat.DamageLogsForm.resources

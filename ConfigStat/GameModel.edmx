@@ -18,6 +18,12 @@
           <Property Name="unitName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="currentLeftBox" Type="int" />
           <Property Name="currentRightBox" Type="int" />
+          <Property Name="monstersRemainingOnLeft" Type="double" />
+          <Property Name="monstersRemainingOnRight" Type="double" />
+          <Property Name="classOfMonster" Type="varchar" MaxLength="20" />
+          <Property Name="monsterSize" Type="int" />
+          <Property Name="minDamage" Type="int" />
+          <Property Name="maxDamage" Type="int" />
         </EntityType>
         <EntityContainer Name="Хранилище GameModelContainer">
           <EntitySet Name="units" EntityType="Self.units" Schema="workgame" store:Type="Tables" />
@@ -40,6 +46,12 @@
           <Property Name="unitName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="currentLeftBox" Type="Int32" />
           <Property Name="currentRightBox" Type="Int32" />
+          <Property Name="monstersRemainingOnLeft" Type="Double" />
+          <Property Name="monstersRemainingOnRight" Type="Double" />
+          <Property Name="classOfMonster" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="monsterSize" Type="Int32" />
+          <Property Name="minDamage" Type="Int32" />
+          <Property Name="maxDamage" Type="Int32" />
         </EntityType>
         <EntityContainer Name="GameEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="units" EntityType="Self.units" />
@@ -62,6 +74,12 @@
                 <ScalarProperty Name="unitName" ColumnName="unitName" />
                 <ScalarProperty Name="currentLeftBox" ColumnName="currentLeftBox" />
                 <ScalarProperty Name="currentRightBox" ColumnName="currentRightBox" />
+                <ScalarProperty Name="monstersRemainingOnLeft" ColumnName="monstersRemainingOnLeft" />
+                <ScalarProperty Name="monstersRemainingOnRight" ColumnName="monstersRemainingOnRight" />
+                <ScalarProperty Name="classOfMonster" ColumnName="classOfMonster" />
+                <ScalarProperty Name="monsterSize" ColumnName="monsterSize" />
+                <ScalarProperty Name="minDamage" ColumnName="minDamage" />
+                <ScalarProperty Name="maxDamage" ColumnName="maxDamage" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

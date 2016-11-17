@@ -12,7 +12,7 @@ namespace ConfigStat
     using System;
     using System.Collections.Generic;
     
-    public partial class units
+    public partial class units : IComparable
     {
         public int idUnit { get; set; }
         public int attack { get; set; }
@@ -23,6 +23,12 @@ namespace ConfigStat
         public string unitName { get; set; }
         public Nullable<int> currentLeftBox { get; set; }
         public Nullable<int> currentRightBox { get; set; }
+        public Nullable<double> monstersRemainingOnLeft { get; set; }
+        public Nullable<double> monstersRemainingOnRight { get; set; }
+        public string classOfMonster { get; set; }
+        public Nullable<int> monsterSize { get; set; }
+        public Nullable<int> minDamage { get; set; }
+        public Nullable<int> maxDamage { get; set; }
         public int CompareTo(object obj)
         {
             int b = (int)obj;

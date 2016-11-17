@@ -13,6 +13,12 @@
     <Property Name="unitName" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="currentLeftBox" Type="int" />
     <Property Name="currentRightBox" Type="int" />
+    <Property Name="monstersRemainingOnLeft" Type="double" />
+    <Property Name="monstersRemainingOnRight" Type="double" />
+    <Property Name="classOfMonster" Type="varchar" MaxLength="20" />
+    <Property Name="monsterSize" Type="int" />
+    <Property Name="minDamage" Type="int" />
+    <Property Name="maxDamage" Type="int" />
   </EntityType>
   <EntityContainer Name="Хранилище GameModelContainer">
     <EntitySet Name="units" EntityType="Self.units" Schema="workgame" store:Type="Tables" />
