@@ -53,6 +53,9 @@ namespace ConfigStat
         double coefficientForLeft = 1.0;
         double coefficientForRight = 1.0;
 
+        Label[] leftLabels = new Label[7];
+        Label[] rightLabels = new Label[7];
+
         PictureBox[] leftBoxs = new PictureBox[7];
         PictureBox[] rightBoxs = new PictureBox[7];
 
@@ -65,6 +68,22 @@ namespace ConfigStat
         public Form1()
         {
             InitializeComponent();
+
+            leftLabels[0] = label29;
+            leftLabels[1] = label30;
+            leftLabels[2] = label31;
+            leftLabels[3] = label32;
+            leftLabels[4] = label33;
+            leftLabels[5] = label34;
+            leftLabels[6] = label35;
+
+            rightLabels[0] = label42;
+            rightLabels[1] = label41;
+            rightLabels[2] = label40;
+            rightLabels[3] = label39;
+            rightLabels[4] = label38;
+            rightLabels[5] = label37;
+            rightLabels[6] = label36;
 
             leftRadioButtons[0] = radioButton3;
             leftRadioButtons[1] = radioButton4;
@@ -670,6 +689,11 @@ namespace ConfigStat
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (step % 18 == 0)
+            {
+                label6.Text = " ";
+                label8.Text = " ";
+            }
             if (step == 1)
             {
                 int countOfChecked = 0;
@@ -802,11 +826,11 @@ namespace ConfigStat
                     damage = coefficientForLeft * GetCoefficientOfAttack(localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault(), localRight.classOfMonster, localRight.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) / (1 + (rightMonsterDefence - leftMonsterAttack) * 0.05));
                 
                 remainingHPOnTheRight -= damage;
-                label6.Text += "\n" + step + ") " + localLeft.unitName + " ударил на " + Math.Round(damage,2).ToString()+ " урона";
+                label6.Text += "\n" + step + ") " + localLeft.unitName + " ударил \nна " + Math.Round(damage,2).ToString()+ " урона " + localRight.unitName;
                 monstersRemaningOnRight = remainingHPOnTheRight / rightMonsterHP;
                 UpdateQuantityOnRight(localRight.idUnit, monstersRemaningOnRight);
                 rightTextBoxs[currentRightTextBox].Text = Math.Ceiling(monstersRemaningOnRight).ToString();
-
+                rightLabels[currentRightTextBox].Text = Math.Round(monstersRemaningOnRight, 2).ToString();
                 if (monstersRemaningOnRight > 0)
                 {
                     if (rightMonsterAttack >= leftMonsterDefence)
@@ -814,10 +838,11 @@ namespace ConfigStat
                     else
                         damage = coefficientForRight * GetCoefficientOfAttack(localRight.classOfMonster,localRight.monsterSize.GetValueOrDefault(), localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) / (1 + (leftMonsterDefence - rightMonsterAttack) * 0.05));
                     remainingHPOnTheLeft -= damage;
-                    label8.Text += "\n" + step + ") " + localRight.unitName + " ответил на " + Math.Round(damage, 2).ToString() + " урона";
+                    label8.Text += "\n" + step + ") " + localRight.unitName + " ответил \nна " + Math.Round(damage, 2).ToString() + " урона " + localLeft.unitName;
                     monstersRemaningOnLeft = remainingHPOnTheLeft / leftMonsterHP;
                     UpdateQuantityOnLeft(localLeft.idUnit, monstersRemaningOnLeft);
                     leftTextBoxs[currentLeftTextBox].Text = Math.Ceiling(monstersRemaningOnLeft).ToString();
+                    leftLabels[currentLeftTextBox].Text = Math.Round(monstersRemaningOnLeft, 2).ToString();
                     if (monstersRemaningOnLeft <= 0)
                     {
                         label8.Text += "\n " + localLeft.unitName+ " убит";
@@ -842,10 +867,11 @@ namespace ConfigStat
                 else
                     damage = coefficientForRight * GetCoefficientOfAttack(localRight.classOfMonster,localRight.monsterSize.GetValueOrDefault(), localLeft.classOfMonster,localLeft.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) / (1 + (leftMonsterDefence - rightMonsterAttack) * 0.05));
                 remainingHPOnTheLeft -= damage;
-                label8.Text += "\n" + step + ") " + localRight.unitName + " ударил на " + Math.Round(damage, 2).ToString() + " урона";
+                label8.Text += "\n" + step + ") " + localRight.unitName + " ударил \nна " + Math.Round(damage, 2).ToString() + " урона " + localLeft.unitName;
                 monstersRemaningOnLeft = remainingHPOnTheLeft / leftMonsterHP;
                 UpdateQuantityOnLeft(localLeft.idUnit, monstersRemaningOnLeft);
                 leftTextBoxs[currentLeftTextBox].Text = Math.Ceiling(monstersRemaningOnLeft).ToString();
+                leftLabels[currentLeftTextBox].Text = Math.Round(monstersRemaningOnLeft, 2).ToString();
                 if (monstersRemaningOnLeft > 0)
                 {
                     if (leftMonsterAttack >= rightMonsterDefence)
@@ -853,10 +879,11 @@ namespace ConfigStat
                     else
                         damage = coefficientForLeft * GetCoefficientOfAttack(localLeft.classOfMonster,localLeft.monsterSize.GetValueOrDefault(), localRight.classOfMonster, localRight.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) / (1 + (rightMonsterDefence - leftMonsterAttack) * 0.05));
                     remainingHPOnTheRight -= damage;
-                    label6.Text += "\n" + step + ") " + localLeft.unitName + " ответил на " + Math.Round(damage, 2).ToString() + " урона";
+                    label6.Text += "\n" + step + ") " + localLeft.unitName + " ответил \nна" + Math.Round(damage, 2).ToString() + " урона " + localRight.unitName;
                     monstersRemaningOnRight = remainingHPOnTheRight / rightMonsterHP;
                     UpdateQuantityOnRight(localRight.idUnit, monstersRemaningOnRight);
                     rightTextBoxs[currentRightTextBox].Text = Math.Ceiling(monstersRemaningOnRight).ToString();
+                    rightLabels[currentRightTextBox].Text = Math.Round(monstersRemaningOnRight, 2).ToString();
                     if (monstersRemaningOnRight <= 0)
                     {
                         label6.Text += " \n " + localRight.unitName + " убит";
@@ -928,6 +955,11 @@ namespace ConfigStat
         
         private void button39_Click(object sender, EventArgs e)
         {
+            foreach (var l in leftLabels)
+            {
+                l.Text = " ";
+            }
+
             coefficientForLeft = 1.0;
             coefficientForRight = 1.0;
             parityCount = 0;
@@ -996,6 +1028,10 @@ namespace ConfigStat
 
         private void button46_Click(object sender, EventArgs e)
         {
+            foreach(var l in rightLabels)
+            {
+                l.Text = " ";
+            }
             coefficientForLeft = 1.0;
             coefficientForRight = 1.0;
             parityCount = 0;
