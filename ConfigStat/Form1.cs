@@ -21,7 +21,6 @@ namespace ConfigStat
         List<units> localLeftMonsters = new List<units>();
         List<units> localRightMonsters = new List<units>();
         
-       
         public static int step = 1;
         public static double damage = 0;
         int parityCount = 0;
@@ -52,6 +51,14 @@ namespace ConfigStat
 
         double coefficientForLeft = 1.0;
         double coefficientForRight = 1.0;
+        int luckForLeft = 0;
+        int luckForRight = 0;
+        int moraleForLeft = 0;
+        int moraleForRight = 0;
+        bool flagForLeft = false;
+        bool flagForRight = false;
+        List<int> localLeftM = new List<int>();
+        List<int> localRightM = new List<int>();
 
         Label[] leftLabels = new Label[7];
         Label[] rightLabels = new Label[7];
@@ -151,46 +158,49 @@ namespace ConfigStat
                 }
             }
             if ((leftClass == 0) && (rightClass == 1))
-                coefficientForLeft += 0.2;
+                coefficientForLeft += 0.06;
             if ((leftClass == 0) && (rightClass == 3))
-                coefficientForLeft += 0.2;
+                coefficientForLeft += 0.06;
             if ((leftClass == 1) && (rightClass == 3))
-                coefficientForLeft += 0.2;
+                coefficientForLeft += 0.06;
             if ((leftClass == 1) && (rightClass == 4))
-                coefficientForLeft += 0.2;
+                coefficientForLeft += 0.06;
             if ((leftClass == 2) && (rightClass == 0))
-                coefficientForLeft += 0.2;
+                coefficientForLeft += 0.06;
             if ((leftClass == 2) && (rightClass == 1))
-                coefficientForLeft += 0.2;
+                coefficientForLeft += 0.06;
             if ((leftClass == 3) && (rightClass == 4))
-                coefficientForLeft += 0.2;
+                coefficientForLeft += 0.06;
             if ((leftClass == 3) && (rightClass == 2))
-                coefficientForLeft += 0.2;
+                coefficientForLeft += 0.06;
             if ((leftClass == 4) && (rightClass == 2))
-                coefficientForLeft += 0.2;
+                coefficientForLeft += 0.06;
             if ((leftClass == 4) && (rightClass == 0))
-                coefficientForLeft += 0.2;
+                coefficientForLeft += 0.06;
 
             if ((rightClass == 0) && (leftClass == 1))
-                coefficientForRight += 0.2;
+                coefficientForRight += 0.06;
             if ((rightClass == 0) && (leftClass == 3))
-                coefficientForRight += 0.2;
+                coefficientForRight += 0.06;
             if ((rightClass == 1) && (leftClass == 3))
-                coefficientForRight += 0.2;
+                coefficientForRight += 0.06;
             if ((rightClass == 1) && (leftClass == 4))
-                coefficientForRight += 0.2;
+                coefficientForRight += 0.06;
             if ((rightClass == 2) && (leftClass == 0))
-                coefficientForRight += 0.2;
+                coefficientForRight += 0.06;
             if ((rightClass == 2) && (leftClass == 1))
-                coefficientForRight += 0.2;
+                coefficientForRight += 0.06;
             if ((rightClass == 3) && (leftClass == 4))
-                coefficientForRight += 0.2;
+                coefficientForRight += 0.06;
             if ((rightClass == 3) && (leftClass == 2))
-                coefficientForRight += 0.2;
+                coefficientForRight += 0.06;
             if ((rightClass == 4) && (leftClass == 2))
-                coefficientForRight += 0.2;
+                coefficientForRight += 0.06;
             if ((rightClass == 4) && (leftClass == 0))
-                coefficientForRight += 0.2;
+                coefficientForRight += 0.06;
+
+           //.. leftRadioButtons[leftClass] 
+
         }
 
         private double GetCoefficientOfAttack(string attackerClassName, int attackerLevel, string defenderClassName, int defenderLevel)
@@ -686,6 +696,55 @@ namespace ConfigStat
             return -1;
         }
         
+        private bool CalculateLuck(int luck)
+        {
+            Random rand = new Random();
+            int local = rand.Next(1, 10);
+            if (luck >= local)
+                return true;
+            return false;
+        }
+
+
+        private int CalculateChanceOfDoubleDamageForLeft(int Morale, int currentTextBox)
+        {
+            if (localLeftM.Count != 0)
+            {
+                for (int i = 0; i <= localLeftM.Count - 1; i++)
+                {
+                    if (localLeftM[i] == currentTextBox)
+                        return 1;
+                }
+            }
+            Random rand = new Random();
+            int local = rand.Next(1, 10);
+            if (Morale >= local)
+            {
+                localLeftM.Add(currentTextBox);
+                return 2;
+            }
+            return 1;
+        }
+
+        private int CalculateChanceOfDoubleDamageForRight(int Morale, int currentTextBox)
+        {
+            if (localRightM.Count != 0)
+            {
+                for (int i = 0; i <= localRightM.Count - 1; i++)
+                {
+                    if (localRightM[i] == currentTextBox)
+                        return 1;
+                }
+            }
+            Random rand = new Random();
+            int local = rand.Next(1, 10);
+            if (Morale >= local)
+            {
+                localRightM.Add(currentTextBox);
+                return 2;
+            }
+            return 1;
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -696,6 +755,10 @@ namespace ConfigStat
             }
             if (step == 1)
             {
+                luckForLeft = Int32.Parse(textBox21.Text);
+                luckForRight = Int32.Parse(textBox24.Text);
+                moraleForLeft = (int)domainUpDown1.SelectedItem;
+                moraleForRight = (int)domainUpDown2.SelectedItem;
                 int countOfChecked = 0;
                 foreach (var rb in leftRadioButtons)
                 {
@@ -793,25 +856,34 @@ namespace ConfigStat
             Random secondRandom;
             leftMonsterAttack = localLeft.attack;
             leftMonsterHP = localLeft.hp;
-            leftMonsterMinDamage = localLeft.minDamage.GetValueOrDefault();
             leftMonsterMaxDamage = localLeft.maxDamage.GetValueOrDefault();
-            firstRandom = new Random();
-            leftMonsterAverageDamage = firstRandom.Next(leftMonsterMinDamage, leftMonsterMaxDamage+1);
             leftMonsterDefence = localLeft.defence;
             currentHPOfLeftMonster = localLeft.hp;
             monstersRemaningOnLeft = localLeft.monstersRemainingOnLeft.GetValueOrDefault();
             remainingHPOnTheLeft = currentHPOfLeftMonster * monstersRemaningOnLeft;
-
+            if (CalculateLuck(luckForLeft))
+                leftMonsterAverageDamage = leftMonsterMaxDamage;
+            else
+            {
+                firstRandom = new Random();
+                leftMonsterMinDamage = localLeft.minDamage.GetValueOrDefault();
+                leftMonsterAverageDamage = firstRandom.Next(leftMonsterMinDamage, leftMonsterMaxDamage + 1);
+            }
             rightMonsterAttack = localRight.attack;
             rightMonsterHP = localRight.hp;
-            rightMonsterMinDamage = localRight.minDamage.GetValueOrDefault();
             rightMonsterMaxDamage = localRight.maxDamage.GetValueOrDefault();
-            secondRandom = new Random();
-            rightMonsterAverageDamage = firstRandom.Next(rightMonsterMinDamage, rightMonsterMaxDamage+1);
             rightMonsterDefence = localRight.defence;
             currentHPOfRightMonster = localRight.hp;
             monstersRemaningOnRight = localRight.monstersRemainingOnRight.GetValueOrDefault();
             remainingHPOnTheRight = currentHPOfRightMonster * monstersRemaningOnRight;
+            if (CalculateLuck(luckForRight))
+                rightMonsterAverageDamage = rightMonsterMaxDamage;
+            else
+            {
+                secondRandom = new Random();
+                rightMonsterMinDamage = localRight.minDamage.GetValueOrDefault();
+                rightMonsterAverageDamage = secondRandom.Next(rightMonsterMinDamage, rightMonsterMaxDamage + 1);       
+            }
             
             //Game battle
             if (parityCount == 1)
@@ -819,12 +891,12 @@ namespace ConfigStat
             {
                 leftBoxs[currentLeftTextBox].BackColor = Color.Green;
                 rightBoxs[currentRightTextBox].BackColor = Color.Red;
-                leftTextBoxs[currentLeftTextBox].BackColor = Color.Aquamarine;
+                int coeffOfTotalDamage = CalculateChanceOfDoubleDamageForLeft(moraleForLeft, currentLeftTextBox);
                 if (leftMonsterAttack >= rightMonsterDefence)
-                    damage = coefficientForLeft * GetCoefficientOfAttack(localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault(), localRight.classOfMonster, localRight.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) * (1 + (leftMonsterAttack - rightMonsterDefence) * 0.05));
+                    damage = coeffOfTotalDamage * coefficientForLeft * GetCoefficientOfAttack(localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault(), localRight.classOfMonster, localRight.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) * (1 + (leftMonsterAttack - rightMonsterDefence) * 0.05));
                 else
-                    damage = coefficientForLeft * GetCoefficientOfAttack(localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault(), localRight.classOfMonster, localRight.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) / (1 + (rightMonsterDefence - leftMonsterAttack) * 0.05));
-                
+                    damage = coeffOfTotalDamage * coefficientForLeft * GetCoefficientOfAttack(localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault(), localRight.classOfMonster, localRight.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) / (1 + (rightMonsterDefence - leftMonsterAttack) * 0.05));
+                leftTextBoxs[currentLeftTextBox].BackColor = Color.Aquamarine;
                 remainingHPOnTheRight -= damage;
                 label6.Text += "\n" + step + ") " + localLeft.unitName + " ударил \nна " + Math.Round(damage,2).ToString()+ " урона " + localRight.unitName;
                 monstersRemaningOnRight = remainingHPOnTheRight / rightMonsterHP;
@@ -861,12 +933,14 @@ namespace ConfigStat
             {
                 leftBoxs[currentLeftTextBox].BackColor = Color.Red;
                 rightBoxs[currentRightTextBox].BackColor = Color.Green;
-                rightTextBoxs[currentRightTextBox].BackColor = Color.Aquamarine;
+                int coeffOfTotalDamage = CalculateChanceOfDoubleDamageForRight(moraleForRight, currentRightTextBox);
                 if (rightMonsterAttack >= leftMonsterDefence)
-                    damage = coefficientForRight * GetCoefficientOfAttack(localRight.classOfMonster,localRight.monsterSize.GetValueOrDefault(), localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) * (1 + (rightMonsterAttack - leftMonsterDefence) * 0.05));
+                    damage = coeffOfTotalDamage * coefficientForRight * GetCoefficientOfAttack(localRight.classOfMonster,localRight.monsterSize.GetValueOrDefault(), localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) * (1 + (rightMonsterAttack - leftMonsterDefence) * 0.05));
                 else
-                    damage = coefficientForRight * GetCoefficientOfAttack(localRight.classOfMonster,localRight.monsterSize.GetValueOrDefault(), localLeft.classOfMonster,localLeft.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) / (1 + (leftMonsterDefence - rightMonsterAttack) * 0.05));
-                remainingHPOnTheLeft -= damage;
+                    damage = coeffOfTotalDamage * coefficientForRight * GetCoefficientOfAttack(localRight.classOfMonster,localRight.monsterSize.GetValueOrDefault(), localLeft.classOfMonster,localLeft.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) / (1 + (leftMonsterDefence - rightMonsterAttack) * 0.05));
+                remainingHPOnTheLeft -= damage ;
+
+                rightTextBoxs[currentRightTextBox].BackColor = Color.Aquamarine;
                 label8.Text += "\n" + step + ") " + localRight.unitName + " ударил \nна " + Math.Round(damage, 2).ToString() + " урона " + localLeft.unitName;
                 monstersRemaningOnLeft = remainingHPOnTheLeft / leftMonsterHP;
                 UpdateQuantityOnLeft(localLeft.idUnit, monstersRemaningOnLeft);
@@ -1024,6 +1098,12 @@ namespace ConfigStat
                     continue;
                 listBox1.Items.Add(unit.unitName);
             }
+            for (int i = 3; i>=0; i--)
+            {
+                domainUpDown1.Items.Add(i);
+                domainUpDown2.Items.Add(i);
+            }
+            
         }
 
         private void button46_Click(object sender, EventArgs e)
@@ -1181,8 +1261,7 @@ namespace ConfigStat
             label25.Text = GetUnitByName(currentName).minDamage.GetValueOrDefault().ToString();
             label27.Text = GetUnitByName(currentName).maxDamage.GetValueOrDefault().ToString();
         }
-
-
+        
         //varvar
         private void button4_Click(object sender, EventArgs e)
         {
