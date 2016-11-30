@@ -1235,12 +1235,15 @@ namespace ConfigStat
             }
             for (int i = 3; i>=0; i--)
             {
-                domainUpDown1.Items.Add(i);
-                domainUpDown2.Items.Add(i);
                 domainUpDown3.Items.Add(i);
                 domainUpDown4.Items.Add(i);
             }
-            
+            for (int i = 3; i >= -3; i--)
+            {
+                domainUpDown1.Items.Add(i);
+                domainUpDown2.Items.Add(i);
+            }
+
         }
 
         private void button46_Click(object sender, EventArgs e)
