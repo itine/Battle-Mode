@@ -165,12 +165,14 @@
             this.label40 = new System.Windows.Forms.Label();
             this.label41 = new System.Windows.Forms.Label();
             this.label42 = new System.Windows.Forms.Label();
-            this.textBox21 = new System.Windows.Forms.TextBox();
-            this.label43 = new System.Windows.Forms.Label();
-            this.label46 = new System.Windows.Forms.Label();
-            this.textBox24 = new System.Windows.Forms.TextBox();
             this.domainUpDown1 = new System.Windows.Forms.DomainUpDown();
             this.domainUpDown2 = new System.Windows.Forms.DomainUpDown();
+            this.domainUpDown3 = new System.Windows.Forms.DomainUpDown();
+            this.domainUpDown4 = new System.Windows.Forms.DomainUpDown();
+            this.label43 = new System.Windows.Forms.Label();
+            this.label44 = new System.Windows.Forms.Label();
+            this.label45 = new System.Windows.Forms.Label();
+            this.label46 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -1586,47 +1588,14 @@
             this.label42.TabIndex = 97;
             this.label42.Text = " ";
             // 
-            // textBox21
-            // 
-            this.textBox21.Location = new System.Drawing.Point(152, 121);
-            this.textBox21.MaxLength = 1;
-            this.textBox21.Name = "textBox21";
-            this.textBox21.Size = new System.Drawing.Size(23, 20);
-            this.textBox21.TabIndex = 104;
-            // 
-            // label43
-            // 
-            this.label43.AutoSize = true;
-            this.label43.Location = new System.Drawing.Point(140, 102);
-            this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(38, 13);
-            this.label43.TabIndex = 105;
-            this.label43.Text = "Удача";
-            // 
-            // label46
-            // 
-            this.label46.AutoSize = true;
-            this.label46.Location = new System.Drawing.Point(1174, 97);
-            this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(38, 13);
-            this.label46.TabIndex = 109;
-            this.label46.Text = "Удача";
-            // 
-            // textBox24
-            // 
-            this.textBox24.Location = new System.Drawing.Point(1186, 116);
-            this.textBox24.MaxLength = 1;
-            this.textBox24.Name = "textBox24";
-            this.textBox24.Size = new System.Drawing.Size(23, 20);
-            this.textBox24.TabIndex = 108;
-            // 
             // domainUpDown1
             // 
             this.domainUpDown1.Location = new System.Drawing.Point(135, 163);
             this.domainUpDown1.Name = "domainUpDown1";
             this.domainUpDown1.Size = new System.Drawing.Size(61, 20);
             this.domainUpDown1.TabIndex = 112;
-            this.domainUpDown1.Text = "Мораль";  // 
+            this.domainUpDown1.Text = "Мораль";
+            // 
             // domainUpDown2
             // 
             this.domainUpDown2.Location = new System.Drawing.Point(1166, 156);
@@ -1635,17 +1604,71 @@
             this.domainUpDown2.TabIndex = 113;
             this.domainUpDown2.Text = "Мораль";
             // 
+            // domainUpDown3
+            // 
+            this.domainUpDown3.Location = new System.Drawing.Point(135, 124);
+            this.domainUpDown3.Name = "domainUpDown3";
+            this.domainUpDown3.Size = new System.Drawing.Size(61, 20);
+            this.domainUpDown3.TabIndex = 114;
+            this.domainUpDown3.Text = "Удача";
+            // 
+            // domainUpDown4
+            // 
+            this.domainUpDown4.Location = new System.Drawing.Point(1166, 122);
+            this.domainUpDown4.Name = "domainUpDown4";
+            this.domainUpDown4.Size = new System.Drawing.Size(61, 20);
+            this.domainUpDown4.TabIndex = 115;
+            this.domainUpDown4.Text = "Удача";
+            // 
+            // label43
+            // 
+            this.label43.AutoSize = true;
+            this.label43.Location = new System.Drawing.Point(132, 147);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(46, 13);
+            this.label43.TabIndex = 116;
+            this.label43.Text = "Мораль";
+            // 
+            // label44
+            // 
+            this.label44.AutoSize = true;
+            this.label44.Location = new System.Drawing.Point(132, 108);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(38, 13);
+            this.label44.TabIndex = 117;
+            this.label44.Text = "Удача";
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Location = new System.Drawing.Point(1189, 108);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(38, 13);
+            this.label45.TabIndex = 118;
+            this.label45.Text = "Удача";
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(1181, 143);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(46, 13);
+            this.label46.TabIndex = 119;
+            this.label46.Text = "Мораль";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1362, 741);
+            this.Controls.Add(this.label46);
+            this.Controls.Add(this.label45);
+            this.Controls.Add(this.label44);
+            this.Controls.Add(this.label43);
+            this.Controls.Add(this.domainUpDown4);
+            this.Controls.Add(this.domainUpDown3);
             this.Controls.Add(this.domainUpDown2);
             this.Controls.Add(this.domainUpDown1);
-            this.Controls.Add(this.label46);
-            this.Controls.Add(this.textBox24);
-            this.Controls.Add(this.label43);
-            this.Controls.Add(this.textBox21);
             this.Controls.Add(this.label36);
             this.Controls.Add(this.label37);
             this.Controls.Add(this.label38);
@@ -1899,12 +1922,14 @@
         private System.Windows.Forms.Label label40;
         private System.Windows.Forms.Label label41;
         private System.Windows.Forms.Label label42;
-        private System.Windows.Forms.TextBox textBox21;
-        private System.Windows.Forms.Label label43;
-        private System.Windows.Forms.Label label46;
-        private System.Windows.Forms.TextBox textBox24;
         private System.Windows.Forms.DomainUpDown domainUpDown1;
         private System.Windows.Forms.DomainUpDown domainUpDown2;
+        private System.Windows.Forms.DomainUpDown domainUpDown3;
+        private System.Windows.Forms.DomainUpDown domainUpDown4;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.Label label45;
+        private System.Windows.Forms.Label label46;
     }
 }
 

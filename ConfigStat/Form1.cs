@@ -57,8 +57,8 @@ namespace ConfigStat
         int moraleForRight = 0;
         bool flagForLeft = false;
         bool flagForRight = false;
-        List<int> localLeftM = new List<int>();
-        List<int> localRightM = new List<int>();
+        int coeffOfTotalDamageForLeft = 0;
+        int coeffOfTotalDamageForRight = 0;
 
         Label[] leftLabels = new Label[7];
         Label[] rightLabels = new Label[7];
@@ -199,8 +199,91 @@ namespace ConfigStat
             if ((rightClass == 4) && (leftClass == 0))
                 coefficientForRight += 0.06;
 
-           //.. leftRadioButtons[leftClass] 
+            int varvarMonsters = 0;
+            int paladinMonsters = 0;
+            int mageMonsters = 0;
+            int necroMonsters = 0;
+            int razbMonsters = 0;
+            int nullStacks = 0;
 
+            foreach (var leftM in leftMonsters)
+            {
+                if (leftM >= 1 && leftM <= 7)
+                    varvarMonsters++;
+                if (leftM >= 8 && leftM <= 14)
+                    paladinMonsters++;
+                if (leftM >= 15 && leftM <= 21)
+                    mageMonsters++;
+                if (leftM >= 22 && leftM <= 28)
+                    necroMonsters++;
+                if (leftM >= 29 && leftM <= 35)
+                    razbMonsters++;
+                if (leftM == 999)
+                    nullStacks++;
+            }
+
+            int countOfMonsters = leftMonsters.Count - nullStacks;
+            switch (leftClass)
+            {
+                case 0:
+                    moraleForLeft -= countOfMonsters - varvarMonsters;
+                    break;
+                case 1:
+                    moraleForLeft -= countOfMonsters - mageMonsters;
+                    break;
+                case 2:
+                    moraleForLeft -= countOfMonsters - necroMonsters;
+                    break;
+                case 3:
+                    moraleForLeft -= countOfMonsters - razbMonsters;
+                    break;
+                case 4:
+                    moraleForLeft -= countOfMonsters - paladinMonsters;
+                    break;
+            }
+
+            int varvarMonstersR = 0;
+            int paladinMonstersR = 0;
+            int mageMonstersR = 0;
+            int necroMonstersR = 0;
+            int razbMonstersR = 0;
+            int nullStacksR = 0;
+
+            foreach (var rightM in rightMonsters)
+            {
+                if (rightM >= 1 && rightM <= 7)
+                    varvarMonstersR++;
+                if (rightM >= 8 && rightM <= 14)
+                    paladinMonstersR++;
+                if (rightM >= 15 && rightM <= 21)
+                    mageMonstersR++;
+                if (rightM >= 22 && rightM <= 28)
+                    necroMonstersR++;
+                if (rightM >= 29 && rightM <= 35)
+                    razbMonstersR++;
+                if (rightM == 999)
+                    nullStacksR++;
+            }
+
+            int countOfMonstersR = rightMonsters.Count - nullStacksR;
+            switch (rightClass)
+            {
+                case 0:
+                    moraleForRight -= countOfMonstersR - varvarMonstersR;
+                    break;
+                case 1:
+                    moraleForRight -= countOfMonstersR - mageMonstersR;
+                    break;
+                case 2:
+                    moraleForRight -= countOfMonstersR - necroMonstersR;
+                    break;
+                case 3:
+                    moraleForRight -= countOfMonstersR - razbMonstersR;
+                    break;
+                case 4:
+                    moraleForRight -= countOfMonstersR - paladinMonstersR;
+                    break;
+            }
         }
 
         private double GetCoefficientOfAttack(string attackerClassName, int attackerLevel, string defenderClassName, int defenderLevel)
@@ -628,6 +711,14 @@ namespace ConfigStat
                         if (tb.BackColor != Color.WhiteSmoke)
                             tb.BackColor = Color.White;
                     }
+                    foreach (var lb in leftLabels)
+                    {
+                        lb.BackColor = Color.White;
+                    }
+                    foreach (var rb in rightLabels)
+                    {
+                        rb.BackColor = Color.White;
+                    }
                 }
                 else
                 {
@@ -678,6 +769,14 @@ namespace ConfigStat
                         if (tb.BackColor != Color.WhiteSmoke)
                             tb.BackColor = Color.White;
                     }
+                    foreach (var lb in leftLabels)
+                    {
+                        lb.BackColor = Color.White;
+                    }
+                    foreach (var rb in rightLabels)
+                    {
+                        rb.BackColor = Color.White;
+                    }
                 }
                 else
                 {
@@ -699,48 +798,34 @@ namespace ConfigStat
         private bool CalculateLuck(int luck)
         {
             Random rand = new Random();
-            int local = rand.Next(1, 10);
+            int local = rand.Next(1, 11);
             if (luck >= local)
                 return true;
             return false;
         }
 
 
-        private int CalculateChanceOfDoubleDamageForLeft(int Morale, int currentTextBox)
+        private int CalculateChanceOfDoubleDamageForLeft(int Morale,int currentBox)
         {
-            if (localLeftM.Count != 0)
-            {
-                for (int i = 0; i <= localLeftM.Count - 1; i++)
-                {
-                    if (localLeftM[i] == currentTextBox)
-                        return 1;
-                }
-            }
+            if (leftLabels[currentBox].BackColor == Color.Gold)
+                return 0;
             Random rand = new Random();
-            int local = rand.Next(1, 10);
+            int local = rand.Next(1, 11);
             if (Morale >= local)
             {
-                localLeftM.Add(currentTextBox);
                 return 2;
             }
             return 1;
         }
 
-        private int CalculateChanceOfDoubleDamageForRight(int Morale, int currentTextBox)
+        private int CalculateChanceOfDoubleDamageForRight(int Morale, int currentBox)
         {
-            if (localRightM.Count != 0)
-            {
-                for (int i = 0; i <= localRightM.Count - 1; i++)
-                {
-                    if (localRightM[i] == currentTextBox)
-                        return 1;
-                }
-            }
+            if(rightLabels[currentBox].BackColor == Color.Gold)
+                return 0;
             Random rand = new Random();
-            int local = rand.Next(1, 10);
+            int local = rand.Next(1, 11);
             if (Morale >= local)
             {
-                localRightM.Add(currentTextBox);
                 return 2;
             }
             return 1;
@@ -748,6 +833,39 @@ namespace ConfigStat
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (domainUpDown1.Text == "Мораль")
+            {
+                MessageBox.Show("Не указана мораль");
+                return;
+            }
+            if (domainUpDown2.Text == "Мораль")
+            {
+                MessageBox.Show("Не указана мораль");
+                return;
+            }
+            if (domainUpDown3.Text == "Удача")
+            {
+                MessageBox.Show("Не указана удача");
+                return;
+            }
+            if (domainUpDown4.Text == "Удача")
+            {
+                MessageBox.Show("Не указана удача");
+                return;
+            }
+            if (label16.Text == "БИТВА ЗАВЕРШЕНА")
+            {
+                MessageBox.Show("Битва завершена");
+                return;
+            }
+            foreach (var leftBox in leftBoxs)
+            {
+                leftBox.BackColor = Color.White;
+            }
+            foreach (var rightBox in rightBoxs)
+            {
+                rightBox.BackColor = Color.White;
+            }
             if (step % 18 == 0)
             {
                 label6.Text = " ";
@@ -755,10 +873,9 @@ namespace ConfigStat
             }
             if (step == 1)
             {
-                luckForLeft = Int32.Parse(textBox21.Text);
-                luckForRight = Int32.Parse(textBox24.Text);
-                moraleForLeft = (int)domainUpDown1.SelectedItem;
-                moraleForRight = (int)domainUpDown2.SelectedItem;
+                luckForLeft = (int)domainUpDown3.SelectedItem;
+                luckForRight = (int)domainUpDown4.SelectedItem;
+               
                 int countOfChecked = 0;
                 foreach (var rb in leftRadioButtons)
                 {
@@ -781,20 +898,18 @@ namespace ConfigStat
                     return;
                 }
                 CheckPlayerClasses();
+                if (leftRadioButtons[2].Checked)
+                    moraleForLeft = 0;
+                else
+                    moraleForLeft += (int)domainUpDown1.SelectedItem;
+                domainUpDown1.Text = moraleForLeft.ToString();
+                if (rightRadioButtons[2].Checked)
+                    moraleForRight = 0;
+                else
+                    moraleForRight += (int)domainUpDown2.SelectedItem;
+                domainUpDown2.Text = moraleForRight.ToString();
             }
-            if (label16.Text == "БИТВА ЗАВЕРШЕНА")
-            {
-                MessageBox.Show("Битва завершена");
-                return;
-            }
-            foreach (var leftBox in leftBoxs)
-            {
-                leftBox.BackColor = Color.White;
-            }
-            foreach (var rightBox in rightBoxs)
-            {
-                rightBox.BackColor = Color.White;
-            }
+            
             localLeftMonsters.RemoveAll(x => x.ToString().Length > 0);
             localRightMonsters.RemoveAll(x => x.ToString().Length > 0);
             //add leftMonsters objects to new LIST and update quantity on DB
@@ -891,21 +1006,31 @@ namespace ConfigStat
             {
                 leftBoxs[currentLeftTextBox].BackColor = Color.Green;
                 rightBoxs[currentRightTextBox].BackColor = Color.Red;
-                int coeffOfTotalDamage = CalculateChanceOfDoubleDamageForLeft(moraleForLeft, currentLeftTextBox);
                 if (leftMonsterAttack >= rightMonsterDefence)
-                    damage = coeffOfTotalDamage * coefficientForLeft * GetCoefficientOfAttack(localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault(), localRight.classOfMonster, localRight.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) * (1 + (leftMonsterAttack - rightMonsterDefence) * 0.05));
+                    damage =  coefficientForLeft * GetCoefficientOfAttack(localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault(), localRight.classOfMonster, localRight.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) * (1 + (leftMonsterAttack - rightMonsterDefence) * 0.05));
                 else
-                    damage = coeffOfTotalDamage * coefficientForLeft * GetCoefficientOfAttack(localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault(), localRight.classOfMonster, localRight.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) / (1 + (rightMonsterDefence - leftMonsterAttack) * 0.05));
-                leftTextBoxs[currentLeftTextBox].BackColor = Color.Aquamarine;
+                    damage =  coefficientForLeft * GetCoefficientOfAttack(localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault(), localRight.classOfMonster, localRight.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnLeft) * leftMonsterAverageDamage) / (1 + (rightMonsterDefence - leftMonsterAttack) * 0.05));
+                int flag = CalculateChanceOfDoubleDamageForLeft(moraleForLeft, currentLeftTextBox);
+                if (flag == 1)
+                    leftTextBoxs[currentLeftTextBox].BackColor = Color.Aquamarine;
+                if (flag == 2)
+                    leftLabels[currentLeftTextBox].BackColor = Color.Gold;
                 remainingHPOnTheRight -= damage;
                 label6.Text += "\n" + step + ") " + localLeft.unitName + " ударил \nна " + Math.Round(damage,2).ToString()+ " урона " + localRight.unitName;
                 monstersRemaningOnRight = remainingHPOnTheRight / rightMonsterHP;
                 UpdateQuantityOnRight(localRight.idUnit, monstersRemaningOnRight);
                 rightTextBoxs[currentRightTextBox].Text = Math.Ceiling(monstersRemaningOnRight).ToString();
                 rightLabels[currentRightTextBox].Text = Math.Round(monstersRemaningOnRight, 2).ToString();
+                if (flag == 0)
+                {
+                    leftTextBoxs[currentLeftTextBox].BackColor = Color.Aquamarine;
+                    parityCount = 0;
+                    step++;
+                    return;
+                }
                 if (monstersRemaningOnRight > 0)
                 {
-                    if (rightMonsterAttack >= leftMonsterDefence)
+                    if (rightMonsterAttack >= leftMonsterDefence )
                         damage = coefficientForRight * GetCoefficientOfAttack(localRight.classOfMonster,localRight.monsterSize.GetValueOrDefault(), localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) * (1 + (rightMonsterAttack - leftMonsterDefence) * 0.05));
                     else
                         damage = coefficientForRight * GetCoefficientOfAttack(localRight.classOfMonster,localRight.monsterSize.GetValueOrDefault(), localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) / (1 + (leftMonsterDefence - rightMonsterAttack) * 0.05));
@@ -926,26 +1051,34 @@ namespace ConfigStat
                     label6.Text += "\n " + localRight.unitName +" убит";
                     rightTextBoxs[currentRightTextBox].BackColor = Color.WhiteSmoke;
                 }
-                label16.Text = "Ход левой стороны";
             }
             //ход правой стороны
             else
             {
                 leftBoxs[currentLeftTextBox].BackColor = Color.Red;
                 rightBoxs[currentRightTextBox].BackColor = Color.Green;
-                int coeffOfTotalDamage = CalculateChanceOfDoubleDamageForRight(moraleForRight, currentRightTextBox);
                 if (rightMonsterAttack >= leftMonsterDefence)
-                    damage = coeffOfTotalDamage * coefficientForRight * GetCoefficientOfAttack(localRight.classOfMonster,localRight.monsterSize.GetValueOrDefault(), localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) * (1 + (rightMonsterAttack - leftMonsterDefence) * 0.05));
+                    damage =  coefficientForRight * GetCoefficientOfAttack(localRight.classOfMonster,localRight.monsterSize.GetValueOrDefault(), localLeft.classOfMonster, localLeft.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) * (1 + (rightMonsterAttack - leftMonsterDefence) * 0.05));
                 else
-                    damage = coeffOfTotalDamage * coefficientForRight * GetCoefficientOfAttack(localRight.classOfMonster,localRight.monsterSize.GetValueOrDefault(), localLeft.classOfMonster,localLeft.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) / (1 + (leftMonsterDefence - rightMonsterAttack) * 0.05));
+                    damage =  coefficientForRight * GetCoefficientOfAttack(localRight.classOfMonster,localRight.monsterSize.GetValueOrDefault(), localLeft.classOfMonster,localLeft.monsterSize.GetValueOrDefault()) * Convert.ToDouble((Math.Ceiling(monstersRemaningOnRight) * rightMonsterAverageDamage) / (1 + (leftMonsterDefence - rightMonsterAttack) * 0.05));
+                int flag = CalculateChanceOfDoubleDamageForRight(moraleForRight, currentRightTextBox);
+                if (flag == 1)
+                    rightTextBoxs[currentRightTextBox].BackColor = Color.Aquamarine;
+                if (flag == 2)
+                    rightLabels[currentRightTextBox].BackColor = Color.Gold;
                 remainingHPOnTheLeft -= damage ;
-
-                rightTextBoxs[currentRightTextBox].BackColor = Color.Aquamarine;
                 label8.Text += "\n" + step + ") " + localRight.unitName + " ударил \nна " + Math.Round(damage, 2).ToString() + " урона " + localLeft.unitName;
                 monstersRemaningOnLeft = remainingHPOnTheLeft / leftMonsterHP;
                 UpdateQuantityOnLeft(localLeft.idUnit, monstersRemaningOnLeft);
                 leftTextBoxs[currentLeftTextBox].Text = Math.Ceiling(monstersRemaningOnLeft).ToString();
                 leftLabels[currentLeftTextBox].Text = Math.Round(monstersRemaningOnLeft, 2).ToString();
+                if (flag == 0)
+                {
+                    rightTextBoxs[currentRightTextBox].BackColor = Color.Aquamarine;
+                    parityCount = 0;
+                    step++;
+                    return;
+                }
                 if (monstersRemaningOnLeft > 0)
                 {
                     if (leftMonsterAttack >= rightMonsterDefence)
@@ -969,7 +1102,6 @@ namespace ConfigStat
                     label8.Text += "\n " +localLeft.unitName+" убит";
                     leftTextBoxs[currentLeftTextBox].BackColor = Color.WhiteSmoke;
                 }
-                label16.Text = "Ход правой стороны";
             }
             parityCount = 0;
             step++;
@@ -1033,7 +1165,10 @@ namespace ConfigStat
             {
                 l.Text = " ";
             }
-
+            foreach (var l in leftLabels)
+            {
+                l.BackColor = Color.White;
+            }
             coefficientForLeft = 1.0;
             coefficientForRight = 1.0;
             parityCount = 0;
@@ -1102,6 +1237,8 @@ namespace ConfigStat
             {
                 domainUpDown1.Items.Add(i);
                 domainUpDown2.Items.Add(i);
+                domainUpDown3.Items.Add(i);
+                domainUpDown4.Items.Add(i);
             }
             
         }
@@ -1111,6 +1248,10 @@ namespace ConfigStat
             foreach(var l in rightLabels)
             {
                 l.Text = " ";
+            }
+            foreach (var l in rightLabels)
+            {
+                l.BackColor = Color.White;
             }
             coefficientForLeft = 1.0;
             coefficientForRight = 1.0;
